@@ -1,13 +1,6 @@
 document.getElementById("taskForm").addEventListener("submit", addTask);
 
-let deleteButtons = document.querySelectorAll(".remove-task");
 
-deleteButtons.forEach((button) => {
-  button.addEventListener("click", function () {
-    const taskId = parseInt(button.getAttribute("id"));
-    deleteTask(taskId);
-  });
-});
 
 let title, description, deadline, category;
 let categoryName;
@@ -51,18 +44,45 @@ function createContext() {
   sortedTasks.forEach((task) => {
     const li = document.createElement("li");
     li.className = "list-group-item";
-
-    // Ustawienie tekstu zadania
-    li.textContent = task.title; // Poprawka: użyj task.title
+    let formCheck = document.createElement("div");
     li.setAttribute("data-id", task.id);
+    let taskCheckbox = document.createElement("input");
+    taskCheckbox.className = "form-check-input taskTitle";
+    taskCheckbox.type = "checkbox";
+    taskCheckbox.onchange = function() {
+      checkboxChange(task.id, taskCheckbox.checked);
+    }
+    
+    if (task.completed) {
+      taskCheckbox.checked = true;
+    }
+    taskCheckbox.id = "checkbox-" + task.id;
+    taskCheckbox.setAttribute("data-id", task.id);
+    let titleLabel = document.createElement("label");
+    titleLabel.textContent = task.title;
+    titleLabel.id = "label-" + task.title;
+
+    if (task.completed) {
+      titleLabel.innerHTML = `<s>${titleLabel.textContent}</s>`;
+    }
+    titleLabel.setAttribute("for", "checkbox-" + task.id);
     const date = document.createElement("span");
-    const buttonsGroup = document.createElement('div')
-    buttonsGroup.className = "btn-group float-right"
+    date.className = "badge text-bg-success float-center";
+    date.textContent = task.deadline;
+    formCheck.className = "form-check";
+    formCheck.appendChild(taskCheckbox);
+    formCheck.appendChild(titleLabel);
+
+    const buttonsGroup = document.createElement("div");
+    buttonsGroup.className = "btn-group float-right";
     const editButton = document.createElement("button");
     editButton.type = "button";
-    editButton.textContent = "Edytuj"
+    editButton.textContent = "Edytuj";
     const removeButton = document.createElement("button");
     removeButton.type = "button";
+    removeButton.onclick = function(){
+      deleteTask(task.id);
+    }
     removeButton.className = "btn btn-danger remove-task float-right";
     removeButton.textContent = "Usuń";
     removeButton.id = task.id;
@@ -71,23 +91,21 @@ function createContext() {
     detailsButton.className = "btn btn-success add-task float-right";
     detailsButton.textContent = "Szczegóły";
     detailsButton.id = task.id;
-    detailsButton.setAttribute("data-bs-toggle","collapse")
-    detailsButton.setAttribute("data-bs-target","#" + "details-" +  task.id)
-    detailsButton.setAttribute("aria-expanded","false")
-    detailsButton.setAttribute("aria-controls","details-" + task.id)
+    detailsButton.setAttribute("data-bs-toggle", "collapse");
+    detailsButton.setAttribute("data-bs-target", "#" + "details-" + task.id);
+    detailsButton.setAttribute("aria-expanded", "false");
+    detailsButton.setAttribute("aria-controls", "details-" + task.id);
     // let detailsIcon = document.createElement('img')
     // detailsIcon.src ='src/svg/details.svg'
     // detailsButton.appendChild(detailsIcon)
-    date.className = "badge text-bg-success float-center";
-    date.textContent = task.deadline;
-    buttonsGroup.appendChild(detailsButton)
-    buttonsGroup.appendChild(editButton)
 
-    buttonsGroup.appendChild(removeButton)
-    li.appendChild(document.createElement('br'));
-    li.appendChild(date);
-    li.appendChild(buttonsGroup);
-
+    buttonsGroup.appendChild(detailsButton);
+    buttonsGroup.appendChild(editButton);
+    buttonsGroup.appendChild(removeButton);
+    formCheck.appendChild(buttonsGroup);
+    formCheck.appendChild(document.createElement("br"));
+    formCheck.appendChild(date);
+    li.appendChild(formCheck);
     let details = document.createElement("div");
     details.className = "collapse";
     details.id = "details-" + task.id;
@@ -96,10 +114,7 @@ function createContext() {
     detailsBody.innerText = task.description;
     details.appendChild(detailsBody);
     li.appendChild(details);
-    // Dodaj li do taskList
     taskList.appendChild(li);
-
-  
   });
 }
 
@@ -114,6 +129,23 @@ function displayTasks() {
       deleteTask(taskId);
     });
   });
+}
+
+
+function checkboxChange(taskId, completed) {
+
+  const task = tasks.find((t) => t.id === taskId);
+  if (task) {
+    if (completed) {
+      task.completed = true;
+    } else {
+      task.completed = false;
+    }
+
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+
+    init()
+  }
 }
 
 function sortTasks(tasks) {
@@ -150,6 +182,8 @@ function sortTasks(tasks) {
   });
 }
 
+
+
 function deleteTask(taskId) {
   // 1. Pobierz tablicę tasks z localStorage
   const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -162,4 +196,5 @@ function deleteTask(taskId) {
   const listItem = document.querySelector(`li[data-id="${taskId}"]`);
   listItem.remove();
   readTasks();
+  createContext();
 }
