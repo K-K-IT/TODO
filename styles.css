@@ -13,3 +13,7 @@ h1 {
 .float-right {
     float: right;
 }
+
+.float-center {
+    float: center;
+}
