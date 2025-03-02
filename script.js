@@ -1,4 +1,7 @@
 document.getElementById("taskForm").addEventListener("submit", addTask);
+document.getElementById("taskFormModal").addEventListener("submit", updateTask);
+
+
 
 
 
@@ -33,13 +36,17 @@ function addTask(e) {
 }
 
 function readTasks() {
-  tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  // tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+   tasks = JSON.parse(localStorage.getItem("tasks"));
+    if (!tasks) {
+      tasks = [];
+    }
 }
 
 function createContext() {
   const taskList = document.getElementById("taskList");
   taskList.innerHTML = "";
-  const sortedTasks = sortTasks(tasks);
+  let sortedTasks = sortTasks(tasks);
 
   sortedTasks.forEach((task) => {
     const li = document.createElement("li");
@@ -78,6 +85,12 @@ function createContext() {
     const editButton = document.createElement("button");
     editButton.type = "button";
     editButton.textContent = "Edytuj";
+    editButton.className = "btn btn-primary"
+    editButton.setAttribute("data-bs-toggle","modal")
+    editButton.setAttribute("data-bs-target","#editModal")
+    editButton.onclick = function(){
+     fillModal(task) ;
+    }
     const removeButton = document.createElement("button");
     removeButton.type = "button";
     removeButton.onclick = function(){
@@ -90,7 +103,7 @@ function createContext() {
     detailsButton.type = "button";
     detailsButton.className = "btn btn-success add-task float-right";
     detailsButton.textContent = "Szczegóły";
-    detailsButton.id = task.id;
+    // detailsButton.id = task.id;
     detailsButton.setAttribute("data-bs-toggle", "collapse");
     detailsButton.setAttribute("data-bs-target", "#" + "details-" + task.id);
     detailsButton.setAttribute("aria-expanded", "false");
@@ -197,4 +210,31 @@ function deleteTask(taskId) {
   listItem.remove();
   readTasks();
   createContext();
+}
+
+
+function fillModal(task) {
+  document.getElementById("taskTitleModal").value = task.title
+  document.getElementById("taskDeadlineModal").value = task.deadline
+  document.getElementById("taskDescriptionModal").value = task.description
+  document.getElementById("taskFormModal").setAttribute("data-id", task.id)
+
+
+}
+
+function updateTask(e){
+  e.preventDefault();
+  let id = document.getElementById("taskFormModal").getAttribute("data-id")
+
+  const updatedTasks = tasks.map((task) => {
+    if (task.id === id) {
+      task.title = document.getElementById("taskTitleModal").value
+      task.description = document.getElementById("taskDescriptionModal").value
+      task.deadline = document.getElementById("taskDeadlineModal").value
+    }
+    return task;
+  });
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  e.target.reset();
+  displayTasks();
 }
