@@ -222,19 +222,32 @@ function fillModal(task) {
 
 }
 
-function updateTask(e){
-  e.preventDefault();
+function updateTask(){
+  // e.preventDefault();
   let id = document.getElementById("taskFormModal").getAttribute("data-id")
+  let updatedTask = tasks.filter((task) => task.id == id);
 
-  const updatedTasks = tasks.map((task) => {
-    if (task.id === id) {
+  // const updatedTasks = tasks.map((task) => {
+  //   if (task.id === id) {
+  //     task.title = document.getElementById("taskTitleModal").value
+  //     task.description = document.getElementById("taskDescriptionModal").value
+  //     task.deadline = document.getElementById("taskDeadlineModal").value
+  //   }
+  //   return task;
+  // });
+  
+  tasks.forEach((task)=>{
+    // console.log("before: " + task.title)
+    if (task.id == id) {
+      // console.log("znaleziono task: " + task.title )
       task.title = document.getElementById("taskTitleModal").value
       task.description = document.getElementById("taskDescriptionModal").value
       task.deadline = document.getElementById("taskDeadlineModal").value
     }
-    return task;
-  });
+    console.log("after: " + task.title)
+  })
+
   localStorage.setItem("tasks", JSON.stringify(tasks));
-  e.target.reset();
+  // e.target.reset();
   displayTasks();
 }
