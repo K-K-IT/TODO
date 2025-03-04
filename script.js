@@ -7,7 +7,8 @@ document.getElementById("taskFormModal").addEventListener("submit", updateTask);
 
 let title, description, deadline, category;
 let categoryName;
-
+const today = new Date()
+today.setHours(1, 0, 0, 0);
 init();
 
 function init() {
@@ -43,6 +44,8 @@ function readTasks() {
     }
 }
 
+
+
 function createContext() {
   const taskList = document.getElementById("taskList");
   taskList.innerHTML = "";
@@ -74,7 +77,17 @@ function createContext() {
     }
     titleLabel.setAttribute("for", "checkbox-" + task.id);
     const date = document.createElement("span");
-    date.className = "badge text-bg-success float-center";
+    let data = task.deadline
+    if ( new Date(data).getTime() > today.getTime()){
+      date.className =  "badge float-center text-bg-success"
+    }
+    if (new Date(data).getTime()  === today.getTime()){
+      date.className = "badge float-center text-bg-warning"
+    }
+    if (new Date(data).getTime()  < today.getTime()){
+      date.className = "badge float-center text-bg-danger"
+    }
+
     date.textContent = task.deadline;
     formCheck.className = "form-check";
     formCheck.appendChild(taskCheckbox);
