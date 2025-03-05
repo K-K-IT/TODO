@@ -46,16 +46,23 @@
       <ul id="taskList" class="list-group"></ul>
     </div>
 
-
-
-
-
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      aria-labelledby="editModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="editModalLabel"></h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <form id="taskFormModal" class="mb-4" data-id="">
@@ -64,27 +71,59 @@
                   type="text"
                   id="taskTitleModal"
                   class="form-control"
-                  value = ""
+                  value=""
                   required
                   aria-label="aaa"
                 />
                 <textarea
                   id="taskDescriptionModal"
                   class="form-control"
-                  value = ""
+                  value=""
                   rows="3"
                 ></textarea>
-                <input type="date" id="taskDeadlineModal" class="form-control" />
+                <input
+                  type="date"
+                  id="taskDeadlineModal"
+                  class="form-control"
+                />
               </div>
               <button type="submit" class="btn btn-primary">Zapisz</button>
             </form>
           </div>
-
         </div>
       </div>
     </div>
 
-
+    <div
+      class="modal fade"
+      id="confirmRemoveModal"
+      tabindex="-1"
+      aria-labelledby="confirmRemoveModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="confirmRemoveModalLabel">Usuń zadanie</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>Czy chcesz usunąć zadanie:</p>
+            <p><b id="removeTaskWarningTaskTitle"></b></p>
+            <p>nie będzie można cofnąc tej operacji.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+            <button type="button" class="btn btn-danger" id="confirmRemove" data-bs-dismiss="modal">Usuń</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>

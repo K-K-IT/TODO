@@ -111,11 +111,18 @@ function createContext() {
     const removeButton = document.createElement("button");
     removeButton.type = "button";
     removeButton.onclick = function(){
-      deleteTask(task.id);
+      document.getElementById("confirmRemove").onclick = function(){
+        deleteTask(task.id) ;
+       }
     }
     removeButton.className = "btn btn-danger remove-task float-right";
     removeButton.textContent = "Usuń";
     removeButton.id = task.id;
+    removeButton.setAttribute("data-bs-toggle","modal")
+    removeButton.setAttribute("data-bs-target","#confirmRemoveModal")
+
+    // ="modal" ="#exampleModal"
+
     const detailsButton = document.createElement("button");
     detailsButton.type = "button";
     detailsButton.className = "btn btn-success add-task float-right";
@@ -156,7 +163,10 @@ function displayTasks() {
   deleteButtons.forEach((button) => {
     button.addEventListener("click", function () {
       const taskId = parseInt(button.getAttribute("id"));
-      deleteTask(taskId);
+      const task = tasks.find((t) => t.id === taskId);
+
+      document.getElementById("removeTaskWarningTaskTitle").innerText = task.title
+      // deleteTask(taskId);
     });
   });
 }
