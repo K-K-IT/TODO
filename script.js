@@ -71,7 +71,7 @@ function createContext() {
     let titleLabel = document.createElement("label");
     titleLabel.textContent = task.title;
     titleLabel.id = "label-" + task.title;
-
+    titleLabel.setAttribute("style","font-weight: 600;")
     if (task.completed) {
       titleLabel.innerHTML = `<s>${titleLabel.textContent}</s>`;
     }
