@@ -75,7 +75,11 @@ function createContext() {
     if (task.completed) {
       titleLabel.innerHTML = `<s>${titleLabel.textContent}</s>`;
     }
-    titleLabel.setAttribute("for", "checkbox-" + task.id);
+    // titleLabel.setAttribute("for", "checkbox-" + task.id);
+    titleLabel.setAttribute("data-bs-toggle", "collapse");
+    titleLabel.setAttribute("data-bs-target", "#" + "details-" + task.id);
+    titleLabel.setAttribute("aria-expanded", "false");
+    titleLabel.setAttribute("aria-controls", "details-" + task.id);
     const date = document.createElement("span");
     let data = task.deadline
     if ( new Date(data).getTime() > today.getTime()){
