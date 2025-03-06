@@ -18,6 +18,15 @@
   </head>
   <body>
     <div class="container mt-5">
+      <button
+        type="button"
+        class="btn btn-neutral float-right"
+        data-bs-toggle="modal"
+        data-bs-target="#configModal"
+        onclick="loadConfig()"
+      >
+        Konfiguracja
+      </button>
       <h1 class="text-center">Lista zadań</h1>
       <form id="taskForm" class="mb-4">
         <div class="form-group">
@@ -104,7 +113,9 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="confirmRemoveModalLabel">Usuń zadanie</h1>
+            <h1 class="modal-title fs-5" id="confirmRemoveModalLabel">
+              Usuń zadanie
+            </h1>
             <button
               type="button"
               class="btn-close"
@@ -118,12 +129,82 @@
             <p>nie będzie można cofnąc tej operacji.</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
-            <button type="button" class="btn btn-danger" id="confirmRemove" data-bs-dismiss="modal">Usuń</button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Zamknij
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              id="confirmRemove"
+              data-bs-dismiss="modal"
+            >
+              Usuń
+            </button>
           </div>
         </div>
       </div>
     </div>
+
+    <div
+      class="modal fade"
+      id="configModal"
+      tabindex="-1"
+      aria-labelledby="configModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="configModalLabel"></h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container mt-5">
+              <h2>Wybierz wartość:</h2>
+              <input
+                type="range"
+                class="form-range"
+                min="100"
+                max="900"
+                step="100"
+                id="myRange"
+              />
+              <p>Wartość: <span id="valueDisplay">
+              </span></p>
+              <span id="preview">Podgląd</span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Zamknij
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              id="saveConfig"
+              data-bs-dismiss="modal"
+              onclick="saveConfig()"
+            >
+              Zapisz
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="config.js"></script>
 
     <script src="script.js"></script>
   </body>
