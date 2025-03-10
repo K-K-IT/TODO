@@ -125,7 +125,7 @@ function createContext() {
 
     const detailsButton = document.createElement("button");
     detailsButton.type = "button";
-    detailsButton.className = "btn btn-success add-task float-right";
+    detailsButton.className = "btn btn-success float-right";
     detailsButton.textContent = "Szczegóły";
     // detailsButton.id = task.id;
     detailsButton.setAttribute("data-bs-toggle", "collapse");
@@ -149,8 +149,39 @@ function createContext() {
     let detailsBody = document.createElement("div");
     detailsBody.className = "card card-body";
     detailsBody.innerText = task.description;
+    let subtaskbtn = document.createElement("button")
+    subtaskbtn.type = "button"
+    subtaskbtn.textContent = "Podzadania " + task.subtasks.length
+    subtaskbtn.className = "btn btn-success float-right";
+    subtaskbtn.setAttribute("data-bs-toggle", "collapse");
+    subtaskbtn.setAttribute("data-bs-target", "#" + "subtasks-" + task.id);
+    subtaskbtn.setAttribute("aria-expanded", "false");
+    subtaskbtn.setAttribute("aria-controls", "subtasks-" + task.id);
+
+    
+    
+    details.appendChild(document.createElement("br"));
+
     details.appendChild(detailsBody);
+    details.appendChild(document.createElement("br"));
+    let subtaskDiv = document.createElement("div")
+    details.appendChild(subtaskbtn)
+
+
+    
+    subtaskDiv.className = "collapse";
+    subtaskDiv.id = "subtask-" + task.id;
+    let subtaskBody = document.createElement("div");
+    subtaskBody.className = "card card-body";
+    subtaskBody.innerText =  "asdasdasd";
+    subtaskDiv.appendChild(subtaskBody)
+
+    details.appendChild(subtaskDiv)
+
+
     li.appendChild(details);
+
+
     taskList.appendChild(li);
   });
 }
@@ -279,3 +310,7 @@ function updateTask(){
   displayTasks();
 }
 
+function setToday(){
+  let i = document.getElementById("taskDeadline")
+  i.value = today.toISOString().split("T")[0]
+}

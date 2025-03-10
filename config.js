@@ -30,3 +30,4 @@ function loadConfig(){
     valueDisplay.innerText = titleWeight
     preview.setAttribute("style", "font-weight: " + titleWeight)
 }
+
